@@ -8,5 +8,5 @@ class AppAssets {
   static const String screenshot3 = '$images/3.jpeg';
 
   // App Download
-  static const String appApk = '$app/geolinked.apk';
+  static const String appApk = 'geolinked.apk';
 }

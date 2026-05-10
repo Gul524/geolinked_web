@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'dart:html' as html;
 import 'constants/assets.dart';
 
 class LandingPage extends StatelessWidget {
@@ -27,9 +29,17 @@ class LandingPage extends StatelessWidget {
 }
 
 Future<void> _downloadApk() async {
-  final Uri url = Uri.parse(AppAssets.appApk);
-  if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-    throw Exception('Could not launch $url');
+  if (kIsWeb) {
+    // For Web, we create an anchor element and click it to trigger download
+    final anchor = html.AnchorElement(href: AppAssets.appApk)
+      ..setAttribute("download", "geolinked.apk")
+      ..click();
+  } else {
+    // Fallback for other platforms
+    final Uri url = Uri.parse(AppAssets.appApk);
+    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+      throw Exception('Could not launch $url');
+    }
   }
 }
 
